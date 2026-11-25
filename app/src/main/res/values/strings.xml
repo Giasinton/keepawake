@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">保持亮屏</string>
+    <string name="tile_label">保持亮屏</string>
+    <string name="duration_title">保持亮屏时长</string>
+
+    <!-- 常驻通知 -->
+    <string name="notif_channel">保持亮屏</string>
+    <string name="notif_title">保持亮屏</string>
+    <string name="notif_stop">关闭</string>
+</resources>

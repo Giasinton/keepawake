@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 磁贴图标：白色太阳字形（Android 12+ 的磁贴会给图标上色，白色在新旧系统里都稳妥） -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 太阳（圆心 54,54 半径 16） -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,54 a16,16 0 1,0 32,0 a16,16 0 1,0 -32,0" />
+
+    <!-- 八道光芒 -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:pathData="M54,20 V30 M54,78 V88 M20,54 H30 M78,54 H88 M37,37 L30,30 M71,37 L78,30 M37,71 L30,78 M71,71 L78,78" />
+</vector>

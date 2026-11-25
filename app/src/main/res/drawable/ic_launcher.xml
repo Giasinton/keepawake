@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 应用图标（只出现在系统「应用信息」等处，桌面没有入口）：蓝底圆角方块 + 太阳 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 圆角方块背景 -->
+    <path
+        android:fillColor="#FF1565C0"
+        android:pathData="M20,0 H88 A20,20 0 0 1 108,20 V88 A20,20 0 0 1 88,108 H20 A20,20 0 0 1 0,88 V20 A20,20 0 0 1 20,0 Z" />
+
+    <!-- 太阳（圆心 54,54 半径 14） -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M40,54 a14,14 0 1,0 28,0 a14,14 0 1,0 -28,0" />
+
+    <!-- 八道光芒 -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="5"
+        android:strokeLineCap="round"
+        android:pathData="M54,24 V32 M54,76 V84 M24,54 H32 M76,54 H84 M38,38 L32,32 M70,38 L76,32 M38,70 L32,76 M70,70 L76,76" />
+</vector>

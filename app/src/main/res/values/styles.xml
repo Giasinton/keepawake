@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  长按菜单 Activity 的主题：窗口本身透明无标题，弹出的 AlertDialog
+  是唯一的可见内容，视觉上就是一个纯粹的悬浮菜单。
+-->
+<resources>
+    <style name="MenuTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

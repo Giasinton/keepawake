@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  保持亮屏：控制中心（快速设置）磁贴。
+
+  · 没有任何启动入口：桌面无图标，也没有可正常打开的界面。
+  · 唯一的 Activity 是「长按磁贴弹出的时长菜单」，用
+    BIND_QUICK_SETTINGS_TILE 限定只能由系统 Quick Settings 拉起。
+  · 亮屏机制：前台服务挂一个 1x1 透明悬浮窗，窗口带 FLAG_KEEP_SCREEN_ON
+    （官方推荐的保持亮屏方式），并常驻一条显示剩余时间的通知。
+  · 一次性授权：SYSTEM_ALERT_WINDOW（显示在其他应用上层）；
+    首次点磁贴会自动跳到系统授权页。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Android 16 实时更新（Live Updates）：ColorOS 16 流体云 / Pixel chip 用，普通权限，声明即可 -->
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <!-- 控制中心磁贴：点按开关，状态由 onStartListening 对齐 -->
+        <service
+            android:name=".KeepAwakeTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- 前台服务：1x1 透明悬浮窗（FLAG_KEEP_SCREEN_ON）+ 倒计时常驻通知 -->
+        <service
+            android:name=".KeepAwakeService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Keeps the display on while the user's keep-screen-on quick settings tile is turned on, and shows an ongoing countdown notification of the remaining screen-on time." />
+        </service>
+
+        <!-- 长按磁贴弹出的时长菜单：只有 Quick Settings 能启动它；
+             singleTask + 空 taskAffinity 防止系统把 QS_TILE_PREFERENCES
+             重复派发时叠出两个实例 -->
+        <activity
+            android:name=".DurationPickerActivity"
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:theme="@style/MenuTheme"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+            </intent-filter>
+        </activity>
+
+        <!-- 系统广播（开机 / 覆盖安装）后的状态恢复 -->
+        <receiver
+            android:name=".WakeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 应用内部广播（闹钟心跳 / 到点、通知上的「关闭」按钮），不对外开放 -->
+        <receiver
+            android:name=".InternalReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>
